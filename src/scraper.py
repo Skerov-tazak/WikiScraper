@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from file_manager import FileManager
 import requests
 DEFAULT_WIKI = "https://www.explainxkcd.com/wiki/index.php/"
 
@@ -6,16 +7,13 @@ class Scraper:
 
     @staticmethod
     def get_article(article_name, wikiprefix=DEFAULT_WIKI) -> str:    
-        filename = article_name + ".html"
-        with open(filename, 'w') as file:
-            content = requests.get(wikiprefix + article_name)
-            file.write(content.text)
-        return filename 
+        content = requests.get(wikiprefix + article_name)
+        return FileManager.save_html(article_name, content)
 
     # Returns a list of all elements of a specified type and/or ID      
     @staticmethod
     def get_elements(filename, element_type=None, id=None):  
-        list_elem = []
+        list_elem = [] 
         with open(filename, 'r') as file:
            soup = BeautifulSoup(file.read(), 'html.parser')
            if element_type and id:
@@ -60,7 +58,7 @@ class Scraper:
 
     # CHECK IF WORKS
     @staticmethod
-    def get_article_content(filename, content_id='content'):
+    def get_article_alpha_wordlist(filename, content_id='content'):
         clean_list = []
         article_content = Scraper.get_elements(filename, id=content_id)
         if article_content:
