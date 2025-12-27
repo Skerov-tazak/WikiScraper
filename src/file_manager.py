@@ -1,4 +1,4 @@
-import pandas
+#import pandas
 import json
 import os
 from pathlib import Path
@@ -26,7 +26,13 @@ class FileManager:
     def load_csv_to_pandas(filename, directory="csv"):
         dir = FileManager.private_get_target_dir(directory)
         filepath = dir / filename
-        return pandas.read_csv(filepath)
+ #       return pandas.read_csv(filepath)
+
+    @staticmethod
+    def load_json(filepath):
+        with open(filepath, 'r') as file:
+            data = json.load(file)
+        return data
 
     @staticmethod
     def save_csv(filename, table, header=False, directory="csv", extension=".csv"):
@@ -34,8 +40,8 @@ class FileManager:
         dir = FileManager.private_get_target_dir(directory)
         dir.mkdir(parents=True, exist_ok=True)
         filepath = dir / filename
-        data_frame = pandas.read_html(table.prettify(), flavor="bs4")
-        data_frame[0].to_csv(filepath, header=header)
+   #     data_frame = pandas.read_html(table.prettify(), flavor="bs4")
+  #      data_frame[0].to_csv(filepath, header=header)
         return filepath
 
     @staticmethod
@@ -53,7 +59,7 @@ class FileManager:
         filename = filename + extension
         dir = FileManager.private_get_target_dir(directory)
         dir.mkdir(parents=True, exist_ok=True)
-        filepath = dir / filename
+        filepath = dir / filename.replace("/","_")
         with open(filepath, 'w') as file:
             file.write(bs4_content.text)
         return filepath

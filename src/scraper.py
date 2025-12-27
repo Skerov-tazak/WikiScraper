@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 from file_manager import FileManager
 import requests
+DEFAULT_SUBPREFIX = "https://www.explainxkcd.com"
 DEFAULT_WIKI = "https://www.explainxkcd.com/wiki/index.php/"
+LOCAL_WIKI_PREFIX = "/wiki/index.php/"
 
 class Scraper:
 
@@ -9,6 +11,11 @@ class Scraper:
     def get_article(article_name, wikiprefix=DEFAULT_WIKI) -> str:    
         content = requests.get(wikiprefix + article_name)
         return FileManager.save_html(article_name, content)
+
+    @staticmethod
+    def get_article_from_link(article_link):
+        content = requests.get(article_link)
+        return FileManager.save_html(article_link, content)
 
     # Returns a list of all elements of a specified type and/or ID      
     @staticmethod
@@ -45,16 +52,24 @@ class Scraper:
 
     # CHECK IF WORKS
     @staticmethod
-    def get_wikilinks(filename, wikiprefix=DEFAULT_WIKI):
+    def get_wikilinks(filename, wikiprefix=LOCAL_WIKI_PREFIX, subprefix=DEFAULT_SUBPREFIX):
         links = Scraper.get_elements(filename, 'a')
         wiki_link_list = []
         if links == None:
             raise Exception("Page Loading Error")
         for link_obj in links:
             if link_obj:
-                if link_obj.href.startswith(wikiprefix):
-                    wiki_link_list.append(link_obj.href)
+                if link_obj.get("href") and link_obj.get("href").startswith(wikiprefix):
+                    wiki_link_list.append(subprefix + link_obj.get("href"))
         return wiki_link_list
+
+    @staticmethod
+    def get_linked_articles(filename, wikiprefix=DEFAULT_WIKI):
+        links = Scraper.get_wikilinks(filename)
+        article_names = []
+        for link in links:
+            article_names.append(link.removeprefix(wikiprefix))
+        return article_names
 
     # CHECK IF WORKS
     @staticmethod

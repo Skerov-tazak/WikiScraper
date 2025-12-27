@@ -51,7 +51,7 @@ class Parser:
             features["analyse"].update({"chart_path": args.chart})
         if args.auto_count_words != None:
             features["crawl"].update({"set": True})
-            features["crawl"].update({"start_article": args.auto_count_words.replace(" ","_")})
+            features["crawl"].update({"article": args.auto_count_words.replace(" ","_")})
             features["crawl"].update({"depth": args.depth})
             features["crawl"].update({"wait": args.wait})
         return features
