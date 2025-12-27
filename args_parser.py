@@ -36,12 +36,12 @@ class Parser:
             features["summary"].update({"article": args.summary.replace(" ", "_")})
         if args.table != None:
             features["table"].update({"set": True})
-            features["table"].update({"article": args.table})
+            features["table"].update({"article": args.table.replace(" ", "_")})
             features["table"].update({"num": args.number})
             features["table"].update({"header": args.first_row_is_header})
         if args.count_words != None:
             features["count"].update({"set": True})
-            features["count"].update({"article": args.count_words})
+            features["count"].update({"article": args.count_words.replace(" ", "_")})
         if args.analyze_relative_word_frequency != None: 
             features["analyse"].update({"set": True})
             if args.mode != "language" or args.mode != "article":
@@ -51,6 +51,7 @@ class Parser:
             features["analyse"].update({"chart_path": args.chart})
         if args.auto_count_words != None:
             features["crawl"].update({"set": True})
+            features["crawl"].update({"start_article": args.auto_count_words.replace(" ","_")})
             features["crawl"].update({"depth": args.depth})
             features["crawl"].update({"wait": args.wait})
         return features

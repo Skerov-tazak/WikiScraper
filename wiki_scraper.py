@@ -8,7 +8,7 @@ class Main:
     def summary(args):
         filename = Scraper.get_article(args["article"])
         paragraph = Scraper.get_paragraph(filename)
-        print(paragraph)
+        print(paragraph.text)
 
     @staticmethod
     def table(args):
