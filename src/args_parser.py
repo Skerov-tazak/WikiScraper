@@ -1,5 +1,6 @@
 import argparse
-from typing import get_args
+from typing import Dict, Any
+
 
 class Parser: 
 
@@ -20,9 +21,9 @@ class Parser:
         parser.add_argument("--count",type=int, default=1, nargs="?", help="Specifies how many words to compare")
         parser.add_argument("--chart",type=str, default=None, nargs="?", help="Saves a chart of frequencies to a csv file - please provide a path")
         # Options for crawling the Wiki and counting words 
-        parser.add_argument("--auto-count-words",type=str, default="", nargs="?", help="Crawl through the wiki starting from the provided phrase, counting word frequency")
+        parser.add_argument("--auto-count-words",type=str, default=None, nargs="?", help="Crawl through the wiki starting from the provided phrase, counting word frequency")
         parser.add_argument("--depth",type=int, default=1, nargs="?", help="Specifies how many links deep the crawler should venture ")
-        parser.add_argument("--wait",type=int, default=1, nargs="?", help="Specifies how long the crawler should wait when jumping between articles")
+        parser.add_argument("--wait",type=float, default=1, nargs="?", help="Specifies how long the crawler should wait when jumping between articles")
         return parser.parse_args()
 
     # Returns a dictionary of dictionaries of features, where each has a field "set" which tells us whether to activate this feauture module
@@ -30,7 +31,7 @@ class Parser:
     def check_features(args):
         # Stores as a dictionary each feature. First elemnt in the list is whether it is active - the next ones are args
         print(args)
-        features = {"summary": {"set": False}, "table": {"set": False}, "count": {"set": False}, "analyse": {"set": False}, "crawl": {"set": False}}
+        features: Dict[str, Dict[str, Any]] = {"summary": {"set": False}, "table": {"set": False}, "count": {"set": False}, "analyse": {"set": False}, "crawl": {"set": False}}
         if args.summary != None:
             features["summary"].update({"set": True})
             features["summary"].update({"article": args.summary.replace(" ", "_")})
@@ -44,11 +45,13 @@ class Parser:
             features["count"].update({"article": args.count_words.replace(" ", "_")})
         if args.analyze_relative_word_frequency != None: 
             features["analyse"].update({"set": True})
-            if args.mode != "language" or args.mode != "article":
+            print(args.mode) 
+            if args.mode == "language" or args.mode == "article":
+                features["analyse"].update({"mode": args.mode})
+                features["analyse"].update({"count": args.count})
+                features["analyse"].update({"chart": args.chart})
+            else:
                 raise Exception("The --mode option must be either \"language\" or \"article\"")
-            features["analyse"].update({"mode": args.mode})
-            features["analyse"].update({"count": args.count})
-            features["analyse"].update({"chart_path": args.chart})
         if args.auto_count_words != None:
             features["crawl"].update({"set": True})
             features["crawl"].update({"article": args.auto_count_words.replace(" ","_")})
