@@ -1,3 +1,4 @@
+from re import sub
 from bs4 import BeautifulSoup
 from file_manager import FileManager
 import requests
@@ -64,8 +65,8 @@ class Scraper:
         return wiki_link_list
 
     @staticmethod
-    def get_linked_articles(filename, wikiprefix=DEFAULT_WIKI):
-        links = Scraper.get_wikilinks(filename)
+    def get_linked_articles(filename, localprefix=LOCAL_WIKI_PREFIX, subprefix=DEFAULT_SUBPREFIX, wikiprefix=DEFAULT_WIKI):
+        links = Scraper.get_wikilinks(filename, wikiprefix=localprefix, subprefix=subprefix)
         article_names = []
         for link in links:
             article_names.append(link.removeprefix(wikiprefix))

@@ -1,9 +1,14 @@
+from re import sub
 from args_parser import Parser
 from analyser import Analyser
 import time
-from scraper import Scraper
+from chart_engine import ChartDrawer
+from scraper import DEFAULT_SUBPREFIX, Scraper
 from file_manager import FileManager
 from collections import deque
+DEFAULT_PREFIX = "https://www.explainxkcd.com/wiki/index.php/"
+DEFAULT_SUBPREFIX = "https://www.explainxkcd.com"
+LOCAL_WIKI_PREFIX = "/wiki/index.php/"
 
 class Main:
 
@@ -37,20 +42,25 @@ class Main:
             else:
                 word_counter["list"].update({word: 1})
         return word_counter
-
+ 
     @staticmethod
-    def count(args):
+    def count(args, mode='a', wikiprefix=DEFAULT_PREFIX):
+        if mode != 'w' and mode != 'a':
+            raise Exception("Count must work in either write or append mode!")
         article = args["article"]
 
-        filepath = Scraper.get_article(article)
+        filepath = Scraper.get_article(article, wikiprefix=wikiprefix)
         word_list = Scraper.get_article_alpha_wordlist(filepath)
         word_counter = {"total": 0, "list": {}}
         word_counter = Main.count_helper(word_counter, word_list)
-        FileManager.save_json(article, word_counter)
-        
+
+        if mode == "w":
+            FileManager.save_json(article, word_counter)
+        else:
+            FileManager.save_json("count_words", word_counter, mode='a')
 
     @staticmethod
-    def crawl(args):
+    def crawl(args, mode='a', wikiprefix=DEFAULT_PREFIX, subprefix=DEFAULT_SUBPREFIX, localprefix=LOCAL_WIKI_PREFIX):
         depth = args["depth"]
         article_ori = args["article"]
         wait = args["wait"]
@@ -59,9 +69,11 @@ class Main:
         bfs = deque()
         visited = {}
         n = 0
+        num_articles = 0
         bfs.appendleft([article_ori, n])
 
         while len(bfs) > 0:
+            num_articles += 1
             current = bfs.pop()
             n = current[1]
             if current[0] in visited:
@@ -70,8 +82,9 @@ class Main:
                 break
             print(current)
             article_name = current[0]
-            cur_filepath = Scraper.get_article(article_name)
-            candidates = Scraper.get_linked_articles(cur_filepath)
+            cur_filepath = Scraper.get_article(article_name, wikiprefix=wikiprefix)
+            candidates = Scraper.get_linked_articles(cur_filepath, subprefix=subprefix,
+                                                     localprefix=localprefix, wikiprefix=wikiprefix)
 
             for article in candidates:
                 bfs.appendleft([article, n + 1])
@@ -80,16 +93,23 @@ class Main:
             time.sleep(wait)
             visited.update({current[0]: True})
             FileManager.remove_file(cur_filepath)
-           # time.sleep(args["wait"])
-        FileManager.save_json("Word_freq_" + article_ori + "_depth_" + str(depth), word_counter)    
+
+        if mode == "w":
+            FileManager.save_json("Word_freq_" + article_ori + "_depth_" +
+                                  str(depth) + "_articles_" + str(num_articles), word_counter)    
+        else:
+            FileManager.save_json("count_words", word_counter, mode='a')    
 
     @staticmethod
     def analyse(args):
         mode = args["mode"]
         count = args["count"]
         chartfilepath = args["chart"]
-        Analyser.normalise_data("Word_freq_Randall_Munroe_depth_1.json")
-        pass
+        combined_df = Analyser.getChartDf(Analyser.normalise_data("count_words.json"),
+                                          count, mode)
+        print(combined_df.to_string())
+        ChartDrawer.drawFreqBarChart(combined_df, count, mode, chartfilepath=chartfilepath)
+    
 
     execute_dict = {
             "summary": summary,
