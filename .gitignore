@@ -7,10 +7,10 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-json/ 
-csv/ 
-html/ 
-Notes/ 
+json 
+csv 
+html 
+Notes 
 .Python
 build/
 develop-eggs/
