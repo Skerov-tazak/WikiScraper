@@ -17,14 +17,22 @@ FRENCH_ARTICLES = ["Portail:Accueil", "Pokémon,_la_série", "Pokémon_Picross",
 FRENCH_SUBPREFIX = "https://www.pokepedia.fr"
 FRENCH_LOCAL_PREFIX = "/"
 
-def test_analyser():
-    article = "Randall_Munroe.json"
+# Integration test for the analyzer
+def integration_test_analyser():
+    article = "Randall_Munroe"
+    Main.count({"article": article}, mode='w')
     mode='article'
+    article += ".json"
     num=39
     combined_df = Analyser.getChartDf(Analyser.calculate_zipf_values(article),num, mode)
-    print(combined_df.to_string())
-    ChartDrawer.drawFreqBarChart(combined_df, num, mode)
+    combined_df = combined_df.nlargest(3, ['Article Frequency'])
+    
+    assert combined_df.index[-1] == "Randall"
+    assert combined_df.index[0] == "the"
+    assert combined_df.index[1] == "of"
 
+
+# Tests for language analysis - they were used for constructing the chart data
 def test_lang_analyser():
     ChartDrawer.drawLanguageTestBarChart(LanguageAnalyzer.perform_tests(folder="json/fr"), "json/fr")
 
@@ -114,3 +122,4 @@ unit_test_get_paragraph()
 unit_test_get_wikilinks()
 unit_test_get_alpha_wordlist()
 unit_test_get_all_filepaths()
+integration_test_analyser()
