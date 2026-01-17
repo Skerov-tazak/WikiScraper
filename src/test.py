@@ -46,5 +46,5 @@ def test_count_words_file():
         args = {"article": article} 
         Main.count(args, 'a')
 
-
+test_german_word_counting()
 test_lang_analyser()
