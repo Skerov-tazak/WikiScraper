@@ -1,7 +1,7 @@
 """Scrapes the wiki webpage and operates on the scraped material"""
 import requests
 from bs4 import BeautifulSoup
-import file_manager
+from wikiscraper import file_manager
 DEFAULT_SUBPREFIX = "https://www.explainxkcd.com"
 LOCAL_WIKI_PREFIX = "/wiki/index.php/"
 

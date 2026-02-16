@@ -3,20 +3,27 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "my_project"
+name = "wikiscraper"
 version = "0.1.0"
-# Tutaj wymieniasz wszystkie zewnętrzne biblioteki:
 dependencies = [
 	"pandas",
 	"beautifulsoup4",
-	"requests"
-	"wordfreq"
-	"numpy"
+	"requests",
+	"wordfreq",
+	"numpy",
+	"html5lib",
 	"matplotlib"
 ]
 
 [project.optional-dependencies]
-# Tutaj możesz dodać biblioteki potrzebne tylko do testów
 dev = [
 	"pytest"
 ]
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"
+extraPaths = ["wikiscraper"]
+
+[tool.setuptools]
+packages = ["wikiscraper"]

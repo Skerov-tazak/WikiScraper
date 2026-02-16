@@ -2,7 +2,7 @@
 import wordfreq
 import pandas as pd
 import numpy
-import file_manager
+from wikiscraper import file_manager
 
 def calculate_zipf_values(filename="count-words.json"):
     """Loads a json dictionary with two fields: "total": and "list": 

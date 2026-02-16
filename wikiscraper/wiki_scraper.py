@@ -1,14 +1,15 @@
 import time
+from io import StringIO
 from collections import deque
 import pandas
-import scraper
-import analyzer
-import chart_engine
-import args_parser
-import file_manager
+from wikiscraper import scraper
+from wikiscraper import analyzer
+from wikiscraper import chart_engine
+from wikiscraper import args_parser
+from wikiscraper import file_manager
 
-# Performs --summary functionality
 def summary(args):
+    """ Performs --summary functionality """
     article = args["article"]
 
     filepath = scraper.get_article(article)
@@ -17,8 +18,8 @@ def summary(args):
         print(paragraph.text)
     file_manager.remove_file(filepath)
 
-# Performs --table functionality
 def table(args):
+    """ Performs --table functionality """
     article = args["article"]
     num = args["num"]
     isheader = args["header"]
@@ -26,15 +27,15 @@ def table(args):
     html_filepath = scraper.get_article(article)
     table_text = scraper.get_table(html_filepath, num)
     file_manager.remove_file(html_filepath)
-    data_frame = pandas.read_html(table_text.prettify(), flavor="bs4")[0]
+    data_frame = pandas.read_html(StringIO(table_text.prettify()), flavor="bs4")[0]
     word_counter = {"total": 0, "list": {}}
     word_list = data_frame.stack().tolist()
     word_counter = count_helper(word_counter, word_list)
     print(pandas.Series(word_counter["list"]).to_frame())
     file_manager.save_csv(article, data_frame, isheader)
 
-# Counts all words from a word list and saves to a dictionary
 def count_helper(word_counter, word_list):
+    """ Counts all words from a word list and saves to a dictionary """
     for word in word_list:
         word_counter["total"] += 1
         if word in word_counter["list"]:
@@ -43,8 +44,8 @@ def count_helper(word_counter, word_list):
             word_counter["list"].update({word: 1})
     return word_counter
 
-# Performs --count-words functionality
 def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_WIKI_PREFIX):
+    """ Performs --count-words functionality """
     if mode not in ('w', 'a'):
         raise Exception("Count must work in either write or append mode!")
     article = args["article"]
@@ -59,10 +60,9 @@ def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_W
     else:
         file_manager.save_json("count_words", word_counter, mode='a')
 
-# Performs --auto-count-words functionality
 def crawl(args, mode='a', subprefix=scraper.DEFAULT_SUBPREFIX,
           localprefix=scraper.LOCAL_WIKI_PREFIX):
-
+    """ Performs --auto-count-words functionality """
     wikiprefix = subprefix + localprefix
     depth = args["depth"]
     article_ori = args["article"]
@@ -103,8 +103,8 @@ def crawl(args, mode='a', subprefix=scraper.DEFAULT_SUBPREFIX,
     else:
         file_manager.save_json("count_words", word_counter, mode='a')
 
-# Performs --Analyze-relative-word-frequency functionality
 def analyse(args):
+    """ Performs --Analyze-relative-word-frequency functionality """
     mode = args["mode"]
     cnt = args["count"]
     chartfilepath = args["chart"]
@@ -123,7 +123,7 @@ execute_dict = {
         }
 
 # Code that passes arguments from the parser and chooses the correct functions to run
-if __name__ == 'main':
+if __name__ == '__main__':
     features = args_parser.return_features()
     for key, options in features.items():
         if options["set"] is True:

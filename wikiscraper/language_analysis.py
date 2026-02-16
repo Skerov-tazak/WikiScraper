@@ -2,13 +2,10 @@
 from functools import reduce
 import pandas as pd
 import numpy
-import file_manager
-import wiki_scraper
-import analyzer
-
-FOLDER = "json"
-LANGS = ["en", "de", "fr"]
-K_VALS = [3, 10, 100, 1000, 10000]
+from wikiscraper import file_manager
+from wikiscraper import wiki_scraper
+from wikiscraper import analyzer
+from wikiscraper import chart_engine
 
 def prepare_test_articles(folder="txt"):
     """Counts words in example artciles from txt folder and saves to json files in json folder"""
@@ -57,3 +54,40 @@ def lang_confidence_score(word_counts, language_words_with_frequency):
                 combined_df["Language Frequency"] /
                 combined_df["Data Frequency"]))
     return score
+
+
+""" DATA USED FOR REFERENCE: 
+
+LITERATURE = ["Also Sprach Zaratustra", "Uncle Tom's Cabin", "Les Miserables"]
+
+ENGLISH_ARTICLES = ["wiki_scraper_Page", "Randall_Munroe", 
+                    "3171:_Geologic_Core_Sample", "3109:_Dehumidifier", "Cueball"]
+ENGLISH_SUBFREFIX = "https://www.explainxkcd.com"
+ENGLIHS_LOCAL_PREFIX = "/wiki/index.php/"  
+
+GERMAN_ARTICLES = ["PokéWiki:Auskunft", "PokéWiki:Mitmachen","Hauptseite",
+                   "PokéWiki:Redakteure#Wiederherstellen","Donarion"]
+GERMAN_SUBPREFIX = "https://www.pokewiki.de"
+GERMAN_LOCAL_PREFIX = "/"
+
+FRENCH_ARTICLES = ["Portail:Accueil", "Pokémon,_la_série", "Pokémon_Picross", "Gibeon", "Lucius"]
+FRENCH_SUBPREFIX = "https://www.pokepedia.fr"
+FRENCH_LOCAL_PREFIX = "/"
+
+
+-- This script allows you to download the mentioned articles -- 
+-- Wikiprefix is SUBPREFIX + LOCAL_WIKI_PREFIX
+def test_word_counting(article_names, wikiprefix):
+    for article in article_names:
+        args = {"article": article}
+        wiki_scraper.count(args, 'w', wikiprefix=wikiprefix)
+
+"""
+FOLDER = "json"
+LANGS = ["en", "de", "fr"]
+K_VALS = [3, 10, 100, 1000, 10000]
+
+if __name__ == "__main__":
+    for lang in LANGS:
+        chart_engine.draw_language_test_bar_chart(
+                perform_tests(folder="json/" + str(lang), langs=LANGS, k_vals=K_VALS), "json/fr")

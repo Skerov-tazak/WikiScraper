@@ -3,12 +3,13 @@ import pandas
 import json
 import os
 from pathlib import Path
+DEFAULT_DIR = "wikiscraper"
 
 def get_target_dir(directory):
     """Returns the path to the target directory or 
      makes it in current folder if it does not exist"""
     current = Path.cwd()
-    if current.name == "src":
+    if current.name == DEFAULT_DIR:
         fold = current.parent / directory
     else:
         fold = Path(directory)

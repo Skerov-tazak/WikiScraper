@@ -1,6 +1,6 @@
 """Draws charts"""
 import matplotlib.pyplot as plt
-import file_manager
+from wikiscraper import file_manager
 
 def draw_freq_bar_chart(combined_df, num, mode="article", lang="en", chartfilepath=None):
     """Draws a chart of frequency in a language as compared to measured frequency"""
