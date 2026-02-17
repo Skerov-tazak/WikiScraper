@@ -28,13 +28,13 @@ def table(args):
     table_text = scraper.get_table(html_filepath, num)
     file_manager.remove_file(html_filepath)
     data_frame = pandas.read_html(StringIO(table_text.prettify()), flavor="bs4")[0]
-    word_counter = {"total": 0, "list": {}}
+
     word_list = data_frame.stack().tolist()
-    word_counter = count_helper(word_counter, word_list)
+    word_counter = count_helper( word_list)
     print(pandas.Series(word_counter["list"]).to_frame())
     file_manager.save_csv(article, data_frame, isheader)
 
-def count_helper(word_counter, word_list):
+def count_helper(word_list, word_counter = {"total": 0, "list": {}}):
     """ Counts all words from a word list and saves to a dictionary """
     for word in word_list:
         word_counter["total"] += 1
@@ -52,8 +52,8 @@ def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_W
 
     filepath = scraper.get_article(article, wikiprefix=wikiprefix)
     word_list = scraper.get_article_alpha_wordlist(filepath)
-    word_counter = {"total": 0, "list": {}}
-    word_counter = count_helper(word_counter, word_list)
+
+    word_counter = count_helper( word_list)
 
     if mode == "w":
         file_manager.save_json(article, word_counter, directory=target_dir)
@@ -92,7 +92,7 @@ def crawl(args, mode='a', subprefix=scraper.DEFAULT_SUBPREFIX,
         for article in candidates:
             bfs.appendleft([article, n + 1])
         word_list = scraper.get_article_alpha_wordlist(cur_filepath)
-        word_counter = count_helper(word_counter, word_list)
+        word_counter = count_helper( word_list, word_counter=word_counter)
         time.sleep(wait)
         visited.update({current[0]: True})
         file_manager.remove_file(cur_filepath)

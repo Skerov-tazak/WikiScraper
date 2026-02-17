@@ -7,7 +7,6 @@ from wikiscraper import wiki_scraper
 from wikiscraper import analyzer
 from wikiscraper import chart_engine
 
-
 def perform_tests(folder, langs, k_vals):
     """Performs the entire analysis and stiches it into one comprehensive table"""
     result = []
@@ -89,14 +88,13 @@ def download_articles_and_count():
 the pure txt input into proper format of dictionary"""
 
 def prepare_test_articles(folder="txt"):
-    """Counts words in example artciles from txt folder and saves to json files in json folder"""
+    """Counts words in example artciles from txt folder and saves to json files in json/art folder"""
     files = file_manager.get_all_filepaths(folder)
     for file in files:
         filename = file_manager.get_file_name(file)
-        count_words = {"total": 0, "list": {}}
         list_of_words = file_manager.load_txt(filename)
-        dict_result = wiki_scraper.count_helper(count_words, list_of_words)
-        file_manager.save_json(filename.split(".")[0],dict_result)
+        dict_result = wiki_scraper.count_helper( list_of_words)
+        file_manager.save_json(filename.split(".")[0],dict_result, directory="json/art")
 
 """FINAL RUN ANALYSIS CODE WHEN ALL ARTICLES AND 
 LITERATURE ARE IN JSON DICT FORMAT IN PROPER FOLDERS"""
@@ -117,3 +115,5 @@ if __name__ == "__main__":
         lang_folder = FOLDER + "/" + str(lang)
         chart_engine.draw_language_test_bar_chart(
                 perform_tests(folder=lang_folder, langs=LANGS, k_vals=K_VALS), lang_folder)
+    art_folder = FOLDER + "/art"
+    chart_engine.draw_language_test_bar_chart(perform_tests(folder=art_folder, langs=LANGS, k_vals=K_VALS), art_folder)

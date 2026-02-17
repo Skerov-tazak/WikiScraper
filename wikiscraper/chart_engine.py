@@ -14,8 +14,8 @@ def draw_freq_bar_chart(combined_df, num, mode="article", lang="en", chartfilepa
         kind="bar",
         figsize=(12, 6),
         color=["#1f77b4", "#ff7f0e"],
-        width=0.8
-    )
+        width=0.8)
+
     plt.title(title_desc, fontsize=16, pad=20)
     plt.ylabel("Frequency Value", fontsize=12)
     plt.xlabel("Word", fontsize=12)
@@ -50,7 +50,6 @@ def draw_language_test_bar_chart(langs_df, folder):
         plt.savefig(file_manager.get_target_dir("charts") /
                     (str(folder).replace("/","_") + "_language_comparison.png"),
                     bbox_inches="tight", dpi=300)
-        plt.show()
 
     # Dependence on K averaged over articles
     title = f"Top K Words By Average Article Occurrence Compared to \
@@ -66,4 +65,3 @@ def draw_language_test_bar_chart(langs_df, folder):
     plt.savefig(file_manager.get_target_dir("charts") /
                 (str(folder).replace("/","_") + "_k_comparison.png"),
                 bbox_inches="tight", dpi=300)
-    plt.show()
