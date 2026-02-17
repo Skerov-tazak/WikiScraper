@@ -44,14 +44,14 @@ def lang_confidence_score(word_counts, language_words_with_frequency):
     return score
 
 
-""" DATA USED FOR REFERENCE """ 
+""" DATA USED FOR REFERENCE """
 
 LITERATURE = ["Also Sprach Zaratustra", "Uncle Tom's Cabin", "Les Miserables"]
 
-ENGLISH_ARTICLES = ["wiki_scraper_Page", "Randall_Munroe", 
+ENGLISH_ARTICLES = ["wiki_scraper_Page", "Randall_Munroe",
                     "3171:_Geologic_Core_Sample", "3109:_Dehumidifier", "Cueball"]
 ENGLISH_SUBFREFIX = "https://www.explainxkcd.com"
-ENGLIHS_LOCAL_PREFIX = "/wiki/index.php/"  
+ENGLIHS_LOCAL_PREFIX = "/wiki/index.php/"
 
 GERMAN_ARTICLES = ["PokéWiki:Auskunft", "PokéWiki:Mitmachen","Hauptseite",
                    "PokéWiki:Redakteure#Wiederherstellen","Donarion"]
@@ -63,7 +63,7 @@ FRENCH_SUBPREFIX = "https://www.pokepedia.fr"
 FRENCH_LOCAL_PREFIX = "/"
 
 COMB_ARTICLES = {"en": ENGLISH_ARTICLES,"de": GERMAN_ARTICLES,"fr": FRENCH_ARTICLES}
-COMB_SUBPREFIX = {"en": ENGLISH_SUBFREFIX,"de": GERMAN_SUBPREFIX,"fr": FRENCH_SUBPREFIX} 
+COMB_SUBPREFIX = {"en": ENGLISH_SUBFREFIX,"de": GERMAN_SUBPREFIX,"fr": FRENCH_SUBPREFIX}
 COMB_LOCAL_PREFIX = {"en": ENGLIHS_LOCAL_PREFIX,"de": GERMAN_LOCAL_PREFIX,"fr": FRENCH_LOCAL_PREFIX}
 
 FOLDER = "json"
@@ -73,20 +73,22 @@ LANGS = ["en", "de", "fr"]
 -- Wikiprefix is SUBPREFIX + LOCAL_WIKI_PREFIX """
 
 def test_word_counting(article_names, wikiprefix, target_dir):
+    """Counts words in all articles from a batch"""
     for article in article_names:
         args = {"article": article}
         wiki_scraper.count(args, 'w', wikiprefix=wikiprefix, target_dir=target_dir)
 
 def download_articles_and_count():
+    """Automatically counts words for all languages for selected articles"""
     for lang in LANGS:
-        test_word_counting(COMB_ARTICLES[lang], COMB_SUBPREFIX[lang] 
+        test_word_counting(COMB_ARTICLES[lang], COMB_SUBPREFIX[lang]
                            + COMB_LOCAL_PREFIX[lang], FOLDER + "/" + str(lang))
 
-"""And this below looks into the txt folder and processes 
+"""And this below looks into the txt folder and processes
 the pure txt input into proper format of dictionary"""
 
 def prepare_test_articles(folder="txt"):
-    """Counts words in example artciles from txt folder and saves to json files in json/art folder"""
+    """Counts words in example artciles from txt folder and saves to json in json/art folder"""
     files = file_manager.get_all_filepaths(folder)
     for file in files:
         filename = file_manager.get_file_name(file)
@@ -94,24 +96,26 @@ def prepare_test_articles(folder="txt"):
         dict_result = wiki_scraper.count_helper( list_of_words)
         file_manager.save_json(filename.split(".")[0],dict_result, directory="json/art")
 
-"""FINAL RUN ANALYSIS CODE WHEN ALL ARTICLES AND 
+"""FINAL RUN ANALYSIS CODE WHEN ALL ARTICLES AND
 LITERATURE ARE IN JSON DICT FORMAT IN PROPER FOLDERS"""
-"""The folders with materials from respective languages 
+"""The folders with materials from respective languages
 should be of the form json/fr or json/en etc"""
 
 K_VALS = [3, 10, 100, 1000, 10000]
+ART_FOLDER = FOLDER + "/art"
 
 if __name__ == "__main__":
-    
+
     # Run this if articles not yet in proper folder
-    download_articles_and_count()  
+    download_articles_and_count()
 
     # Run this if txt downloaded from the net but not yet turned into json
-    prepare_test_articles() 
+    prepare_test_articles()
 
     for lang in LANGS:
+        # PYLINT says this doesn't conform to constant style - but this is NOT A CONSTANT!!!
         lang_folder = FOLDER + "/" + str(lang)
         chart_engine.draw_language_test_bar_chart(
                 perform_tests(folder=lang_folder, langs=LANGS, k_vals=K_VALS), lang_folder)
-    art_folder = FOLDER + "/art"
-    chart_engine.draw_language_test_bar_chart(perform_tests(folder=art_folder, langs=LANGS, k_vals=K_VALS), art_folder)
+    chart_engine.draw_language_test_bar_chart(perform_tests(folder=ART_FOLDER, 
+                                                            langs=LANGS, k_vals=K_VALS), ART_FOLDER)

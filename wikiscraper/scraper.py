@@ -15,17 +15,16 @@ def get_article_from_link(article_link, fold="html"):
     content = requests.get(article_link)
     return file_manager.save_html(article_link, content, directory=fold)
 
-# Returns a list of all elements of a specified type and/or ID
-def get_elements(filepath, element_type=None, id=None):
-    """Returns specified elements from an html file"""
+def get_elements(filepath, element_type=None, html_id=None):
+    """Returns specified elements from an html file of a specified type and/or ID"""
     with open(filepath, "r", encoding="utf=8") as file:
         soup = BeautifulSoup(file.read(), "html.parser")
-        if element_type and id:
-            list_tag = soup.find_all(element_type, {"id": id})
+        if element_type and html_id:
+            list_tag = soup.find_all(element_type, {"id": html_id})
         elif element_type:
             list_tag = soup.find_all(element_type)
-        elif id:
-            list_tag = soup.find_all(id=id)
+        elif html_id:
+            list_tag = soup.find_all(id=html_id)
         else:
             list_tag = soup.text
 
@@ -46,9 +45,8 @@ def get_table(filepath, number=1):
     tables = get_elements(filepath, "table")
     if tables is None or len(tables) < number:
         raise Exception(f"{number} tables on this website don't exist!")
-    return tables[number - 1] 
+    return tables[number - 1]
 
-    # CHECK IF WORKS
 def get_wikilinks(filepath, wikiprefix=LOCAL_WIKI_PREFIX, subprefix=DEFAULT_SUBPREFIX):
     """Returns a list of all internal links from some wiki page in an html file"""
     links = get_elements(filepath, "a")
@@ -70,11 +68,10 @@ def get_linked_articles(filepath, localprefix=LOCAL_WIKI_PREFIX, subprefix=DEFAU
         article_names.append(link.removeprefix(wikiprefix))
     return article_names
 
-# CHECK IF WORKS
 def get_article_alpha_wordlist(filepath, content_id="content"):
     """Returns a list of all the alpha words from an html file with repetitions"""
     clean_list = []
-    article_content = get_elements(filepath, id=content_id)
+    article_content = get_elements(filepath, html_id=content_id)
     if article_content:
         article_content = article_content[0]
         text = article_content.get_text(separator=" ", strip=True)
@@ -82,4 +79,4 @@ def get_article_alpha_wordlist(filepath, content_id="content"):
         for word in word_list:
             if word.isalpha():
                 clean_list.append(word)
-    return clean_list    
+    return clean_list

@@ -1,3 +1,4 @@
+"""The main module that calls all other functions"""
 import time
 from io import StringIO
 from collections import deque
@@ -34,7 +35,7 @@ def table(args):
     print(pandas.Series(word_counter["list"]).to_frame())
     file_manager.save_csv(article, data_frame, isheader)
 
-def count_helper(word_list, word_counter = None): 
+def count_helper(word_list, word_counter = None):
     """ Counts all words from a word list and saves to a dictionary """
     if word_counter is None:
         word_counter = {"total": 0, "list": {}}
@@ -47,7 +48,8 @@ def count_helper(word_list, word_counter = None):
             word_counter["list"].update({word: 1})
     return word_counter
 
-def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_WIKI_PREFIX, target_dir="json"):
+def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX +
+          scraper.LOCAL_WIKI_PREFIX, target_dir="json"):
     """ Performs --count-words functionality """
     if mode not in ('w', 'a'):
         raise Exception("Count must work in either write or append mode!")

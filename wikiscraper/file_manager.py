@@ -1,8 +1,8 @@
 """Performs all the necessary file manipulations"""
-import pandas
 import json
 import os
 from pathlib import Path
+import pandas
 
 def get_target_dir(directory):
     """Returns the path to the target directory or 
