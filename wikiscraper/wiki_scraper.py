@@ -44,7 +44,7 @@ def count_helper(word_counter, word_list):
             word_counter["list"].update({word: 1})
     return word_counter
 
-def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_WIKI_PREFIX):
+def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_WIKI_PREFIX, target_dir="json"):
     """ Performs --count-words functionality """
     if mode not in ('w', 'a'):
         raise Exception("Count must work in either write or append mode!")
@@ -56,9 +56,9 @@ def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_W
     word_counter = count_helper(word_counter, word_list)
 
     if mode == "w":
-        file_manager.save_json(article, word_counter)
+        file_manager.save_json(article, word_counter, directory=target_dir)
     else:
-        file_manager.save_json("count_words", word_counter, mode='a')
+        file_manager.save_json("count_words", word_counter, mode='a', directory=target_dir)
 
 def crawl(args, mode='a', subprefix=scraper.DEFAULT_SUBPREFIX,
           localprefix=scraper.LOCAL_WIKI_PREFIX):
