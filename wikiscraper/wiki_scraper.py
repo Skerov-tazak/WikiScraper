@@ -34,8 +34,11 @@ def table(args):
     print(pandas.Series(word_counter["list"]).to_frame())
     file_manager.save_csv(article, data_frame, isheader)
 
-def count_helper(word_list, word_counter = {"total": 0, "list": {}}):
+def count_helper(word_list, word_counter = None): 
     """ Counts all words from a word list and saves to a dictionary """
+    if word_counter is None:
+        word_counter = {"total": 0, "list": {}}
+
     for word in word_list:
         word_counter["total"] += 1
         if word in word_counter["list"]:
@@ -53,7 +56,7 @@ def count(args, mode='a', wikiprefix=scraper.DEFAULT_SUBPREFIX + scraper.LOCAL_W
     filepath = scraper.get_article(article, wikiprefix=wikiprefix)
     word_list = scraper.get_article_alpha_wordlist(filepath)
 
-    word_counter = count_helper( word_list)
+    word_counter = count_helper(word_list)
 
     if mode == "w":
         file_manager.save_json(article, word_counter, directory=target_dir)

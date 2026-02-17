@@ -35,7 +35,7 @@ def draw_language_test_bar_chart(langs_df, folder):
 
     langs_df.set_index(["file"], inplace=True)
     # Dependence on article
-    for k in [100]:
+    for k in [10000]:
         title = f"Top {k} Words By Occurrence in Articles \
                     Compared to Languages Articles From {folder}"
 

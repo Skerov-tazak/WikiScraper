@@ -78,7 +78,7 @@ def save_json(filename, content, directory="json", extension=".json", mode="w"):
                     content["list"].update({word: old_content["list"][word]})
 
     with open(filepath, mode="w", encoding="utf-8") as file:
-        json.dump(content, file, indent=4)
+        json.dump(content, file, indent=4, ensure_ascii=False)
 
     return filepath
 

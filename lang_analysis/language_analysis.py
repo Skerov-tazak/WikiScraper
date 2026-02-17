@@ -35,8 +35,6 @@ def lang_confidence_score(word_counts, language_words_with_frequency):
     words_df.columns = ["Data Frequency"]
     combined_df = words_df.join(language_words_with_frequency, how="right")
     combined_df["Data Frequency"] = combined_df["Data Frequency"].fillna(1e-10)
-    combined_df["Data Frequency"] = (combined_df["Data Frequency"] /
-                                    combined_df["Data Frequency"].sum())
     combined_df["Language Frequency"] = (combined_df["Language Frequency"] /
                                          combined_df["Language Frequency"].sum())
     # KL Divergence Calculation
