@@ -1,0 +1,45 @@
+# Wiki Language Analyzer & Scraper
+
+An automated web scraping and natural language processing (NLP) tool that analyzes word frequencies across different languages. This project extracts text from Wikipedia and ExplainXKCD articles, processes the data, and applies statistical concepts like Zipf's Law and Kullback-Leibler (KL) Divergence to calculate language confidence scores.
+
+## Key Features
+
+* **Automated Web Crawler:** Implements a Breadth-First Search (BFS) algorithm to navigate and scrape linked articles up to a specified depth.
+* **Statistical Text Analysis:** Calculates word probabilities and verifies Zipf's Law distributions against real-world scraped data.
+* **Language Detection & Scoring:** Compares scraped text frequencies against baseline language models using KL Divergence to accurately identify the text's language.
+* **Data Visualization:** Automatically generates comparative bar charts to visualize word frequency distributions and test results using Matplotlib.
+* **Modular Architecture:** Clean separation of concerns across scraping, data management, mathematical analysis, and visualization.
+
+## Technologies Used
+
+* **Language:** Python 3
+* **Web Scraping:** `requests`, `BeautifulSoup4`
+* **Data Manipulation:** `pandas`, `numpy`
+* **Natural Language Processing:** `wordfreq`
+* **Visualization:** `matplotlib`
+
+## Project Structure
+
+* `language_analysis.py`: The main orchestration script that runs the analysis pipeline and joins datasets for final scoring.
+* `wiki_scraper.py`: Handles CLI-like execution for scraping, summarizing, and building word counts.
+* `scraper.py`: Core web scraping logic, HTML parsing, and DOM traversal.
+* `analyzer.py`: Contains the mathematical bulk of the project, calculating probabilities, Zipf values, and formatting DataFrames.
+* `chart_engine.py`: Dedicated module for generating and exporting statistical charts.
+* `file_manager.py`: Centralized utility for handling all file I/O operations (JSON, CSV, HTML, TXT).
+* `unit_test.py` & `integration_test.py`: Automated testing suites to ensure scraper and analyzer reliability.
+
+## Installation & Setup
+
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/yourusername/wiki-language-analyzer.git](https://github.com/yourusername/wiki-language-analyzer.git)
+   cd wiki-language-analyzer
+
+2. Create a virtual environment (recommended):
+   ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+
+3. Install the project and dependencies
+   ```bash
+    pip install . # Use pip install .[dev] if running tests
