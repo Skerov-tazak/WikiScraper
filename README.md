@@ -32,7 +32,7 @@ An automated web scraping and natural language processing tool that analyzes wor
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/wiki-language-analyzer.git](https://github.com/yourusername/wiki-language-analyzer.git)
+   git clone https://github.com/Skerov-tazak/WikiScraper/tree/main
    cd wiki-language-analyzer
 
 2. Create a virtual environment (recommended):
