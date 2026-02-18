@@ -43,3 +43,7 @@ An automated web scraping and natural language processing tool that analyzes wor
 3. Install the project and dependencies
    ```bash
     pip install . # Use pip install .[dev] if running tests
+
+## Important note on the statistical method used
+
+Most of the measurements that are shown in example jupyter notebook and visualisations that are coded into draw_language_test_bar_chat() function as well as the choice of articles in language_analysis.py is not very scientifically valid. Of course everyone is welcome to modify the folders the analysis tool draws from as well as the content of the charts. The example doesn't try very hard to control for important factors such as topic, length or date. It does not calculate and show averages either - though implementing this is a matter of simply transforming a pandas data frame. The goal was to create a tool and showcase its use - and other interesting or important scientific aspects were sidelined.
