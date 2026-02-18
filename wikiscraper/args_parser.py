@@ -56,7 +56,6 @@ def check_features(args):
     Stores as a dictionary each feature. First elemnt in the list is whether
     it is active - the next ones are args """
 
-    print(args)
     features: Dict[str, Dict[str, Any]] = {
             "summary": {"set": False},
             "table": {"set": False},
@@ -76,8 +75,7 @@ def check_features(args):
         features["count"].update({"article": args.count_words.replace(" ", "_")})
     if args.analyze_relative_word_frequency is not None:
         features["analyse"].update({"set": True})
-        print(args.mode)
-        if args.mode not in ("language", "article"):
+        if args.mode in ("language", "article"):
             features["analyse"].update({"mode": args.mode})
             features["analyse"].update({"count": args.count})
             features["analyse"].update({"chart": args.chart})
