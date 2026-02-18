@@ -1,6 +1,6 @@
 # Wiki Language Analyzer & Scraper
 
-An automated web scraping and natural language processing (NLP) tool that analyzes word frequencies across different languages. This project extracts text from Wikipedia and ExplainXKCD articles, processes the data, and applies statistical concepts like Zipf's Law and Kullback-Leibler (KL) Divergence to calculate language confidence scores.
+An automated web scraping and natural language processing tool that analyzes word frequencies across different languages. This project extracts text from Bulbapedia (Pokewiki de/fr) and ExplainXKCD articles (but it easily supports any other wiki-ecosystem with a few changes), processes the data, and applies statistical concepts like Zipf's Law and Kullback-Leibler (KL) Divergence to calculate language confidence scores.
 
 ## Key Features
 
