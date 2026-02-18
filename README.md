@@ -32,10 +32,10 @@ An automated web scraping and natural language processing tool that analyzes wor
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Skerov-tazak/WikiScraper/tree/main
-   cd wiki-language-analyzer
+   git clone https://github.com/Skerov-tazak/WikiScraper.git
+   cd WikiScraper
 
-2. Create a virtual environment (recommended):
+2. Create a virtual environment:
    ```bash
     python3 -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
