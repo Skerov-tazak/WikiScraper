@@ -1,4 +1,4 @@
-# Wikiscraper - a tool for wiki Language Analysis and Scraping
+# Wikiscraper - Tool for Wiki Language Analysis and Scraping
 
 A web scraping and natural language processing tool that analyzes word frequencies across different languages. This project extracts text from Bulbapedia (Pokewiki de/fr) and ExplainXKCD articles (but it easily supports any other wiki-ecosystem with a few changes, forks welcome), processes the data, and applies statistical concepts like Zipf's Law and Kullback-Leibler (KL) Divergence to calculate language confidence scores.
 
