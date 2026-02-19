@@ -57,11 +57,12 @@ The project will create a few folders in the main `WikiScraper` folder that it i
 
 ## Future Plans
 
+### With the below mentioned changes the software will be truly useful for conducting any type of language word frequency research on wiki sites on the internet.
+
 - [ ] **Modularise analysis with CLI interface:** In its current state analyzing data is not modular or really easy to do. It requires hard-coding the paths, languages and articles. In the future the plan is to create a friendly modular CLI interace, as well as a settings.json file that will contains all parameters for easier use. 
 - [ ] **Make the analysis full and comprehensive:** The changes outlined above can be used to create a better graphin and data-collection environement. This will allow for controlled studies of performance between languages and divergence functions.
 
-### With the above mentioned changes the software will be useful for conducting any type of language word frequency research on wiki sites on the net.
 
-**NOTE: SCRAPING WEBSITES IS NOT ALWAYS LEGAL, PLEASE ALWAYS CHECK THE LICENCE. THE AUTHOR OF THIS SOFTWARE DOES NOT CONDONE OR TAKE RESPONSIBILITY FOR ANY ILLEGAL ACTIONS PERPETRATED WITH ITS USE**
+**NOTE: SCRAPING WEBSITES IS NOT ALWAYS LEGAL, PLEASE ALWAYS CHECK THE LICENCE. THE AUTHOR OF THIS SOFTWARE DOES NOT CONDONE OR TAKE RESPONSIBILITY FOR ANY ILLEGAL ACTIONS PERPETRATED WITH ITS USE**.
 
 
