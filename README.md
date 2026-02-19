@@ -31,24 +31,37 @@ A web scraping and natural language processing tool that analyzes word frequenci
 
 ## Installation & Setup
 
-1. Clone the repository:
+### 1. Clone the repository:
    ```bash
    git clone https://github.com/Skerov-tazak/WikiScraper.git
    cd WikiScraper
-
-2. Create a virtual environment:
+   ```
+### 2. Create a virtual environment:
    ```bash
     python3 -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-3. Install the project and dependencies
+   ```
+### 3. Install the project and dependencies
    ```bash
     pip install . # Use pip install .[dev] if running tests
-
+   ```
 ## Important note on the statistical method used
 
-Most of the measurements that are shown in the example jupyter notebook and the visualisations that are coded into **draw_language_test_bar_chart()** function in chart_engine.py, as well as the choice of articles in **language_analysis.py** is not very scientifically valid. Of course everyone is welcome to modify the folders the analysis tool draws from as well as the content of the charts. The example doesn't try very hard to control for important factors such as topic, length or date. It does not calculate and show averages either - though implementing this is a matter of simply transforming a pandas data frame. The goal was to create a tool and showcase its use - and other interesting or important scientific aspects were sidelined. The most important and useful part of the project is the entire **wikiscraper** package and the **perform_tests()**, **lang_confidence_score()** and **prepare_test_articles()** functions. They allow you to analyse any properly structured json against any language and any number of most popular words. 
+Most of the measurements that are shown in the example jupyter notebook and the visualisations that are coded into `draw_language_test_bar_chart()` function in `chart_engine.py`, as well as the choice of articles in `language_analysis.py` is not very scientifically valid. Of course everyone is welcome to modify the folders the analysis tool draws from as well as the content of the charts. The example doesn't try very hard to control for important factors such as topic, length or date. 
+
+The programme unfortunately does not calculate and show averages either. The goal was to create a tool and showcase its use - other interesting or important scientific aspects were sidelined. The most important and useful part of the project is the entire `wikiscraper` package and the `perform_tests()`, `lang_confidence_score()` and `prepare_test_articles()` functions. They allow you to analyse any properly structured json against any language and any number of most popular words. 
 
 ## Other used folders 
 
-The project will create a few folders in the main WikiScraper folder that it is cloned into when used. Notably: charts, csv, json, html and txt. The names are quite self-explanatory. The json directory is the most important - it contains language folders and the art folder. These folders will contain all the json word counts for any article. It is quite simple to change these folder names - but it is not necessary as you can easily manually change their content. The txt file should contain all the txt articles that language_analysis.py will turn into word counts and save in json/art.
+The project will create a few folders in the main `WikiScraper` folder that it is cloned into when used. Notably: `charts`, `csv`, `json`, `html` and `txt`. The names are quite self-explanatory. The `json` directory is the most important - it contains language folders and the art folder. These folders will contain all the `json` word counts for any article. It is quite simple to change these folder names - but it is not necessary as you can easily manually change their content. The txt file should contain all the txt articles that `language_analysis.py` will turn into word counts and save in `json/art`.
+
+## Future Plans
+
+- [ ] **Modularise analysis with CLI interface:** In its current state analyzing data is not modular or really easy to do. It requires hard-coding the paths, languages and articles. In the future the plan is to create a friendly modular CLI interace, as well as a settings.json file that will contains all parameters for easier use. 
+- [ ] **Make the analysis full and comprehensive:** The changes outlined above can be used to create a better graphin and data-collection environement. This will allow for controlled studies of performance between languages and divergence functions.
+
+### With the above mentioned changes the software will be useful for conducting any type of language word frequency research on wiki sites on the net.
+
+**NOTE: SCRAPING WEBSITES IS NOT ALWAYS LEGAL, PLEASE ALWAYS CHECK THE LICENCE. THE AUTHOR OF THIS SOFTWARE DOES NOT CONDONE OR TAKE RESPONSIBILITY FOR ANY ILLEGAL ACTIONS PERPETRATED WITH ITS USE**
+
+
