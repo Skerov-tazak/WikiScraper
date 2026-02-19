@@ -116,7 +116,7 @@ def analyse(args):
     combined_df = analyzer.get_chart_df(analyzer.calculate_zipf_values("count_words.json"),
                                       cnt, mode)
     print(combined_df.to_string())
-    chart_engine.draw_freq_bar_chart(combined_df, count, mode, chartfilepath=chartfilepath)
+    chart_engine.draw_freq_bar_chart(combined_df, cnt, mode, chartfilepath=chartfilepath)
 
 # Dictionary for functions
 execute_dict = {
